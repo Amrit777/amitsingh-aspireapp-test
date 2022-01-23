@@ -14,7 +14,7 @@ class install extends Command
      *
      * @var string
      */
-    protected $signature = 'test-software:install';
+    protected $signature = 'setup:install';
 
     /**
      * The console command description.
