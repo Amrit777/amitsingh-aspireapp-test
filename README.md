@@ -22,10 +22,11 @@
   Once cloning of the project is done. Go to root of this project and Open terminal to 
 - Run Command "composer install"
 - Open .env file and update your env file.
-
+    <p>
     DB_DATABASE=YOUR_DATABASE_NAME
     DB_USERNAME=YOUR_DATABASE_USERNAME or (root)
     DB_PASSWORD=YOUR_DATABASE_PASSWORD or (empty)
+    </p>
 
 Once done with the changes, Open terminal again to
 - Run Command "php artisan migrate"
