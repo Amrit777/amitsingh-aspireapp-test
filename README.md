@@ -29,9 +29,7 @@
     </p>
 
 Once done with the changes, Open terminal again to
-- Run Command "php artisan migrate"
-- Run Command "php artisan passport:install"
-- Run Command "php artisan db:seed"
+- Run Command "php artisan setup:install"
 - Run Command "php artisan serve" or ( "php artisan serve --port=8001" as my API collection is running on port 8001).
 
 Now you are ready to run the API collection provided.

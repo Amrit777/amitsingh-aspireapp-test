@@ -48,7 +48,7 @@ class install extends Command
             return;
         }
 
-        $this->comment('Attempting to install Software - 1.0.0');
+        $this->comment('Attempting to install Mini App Test on your system.....');
 
         if (!env('APP_KEY')) {
             $this->info('Generating app key');
