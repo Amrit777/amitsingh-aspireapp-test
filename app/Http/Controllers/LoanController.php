@@ -21,12 +21,18 @@ class LoanController extends Controller
         $limit = $request->limit;
         $limit = ($limit) ? $limit : Constants::PAGINATION_COUNT;
         $list = Loan::latest('id');
-        if (!$user->isAdmin()) {
+        if ($user->isAdmin()) {
+            if ($request->filled('user_id')) {
+                $list->where('user_id', $request->user_id);
+            }
+        }
+        if ($user->isUser()) {
             $list->where('user_id', $user->id);
         }
         if ($request->filled('state_id')) {
             $list->where('state_id', $request->state_id);
         }
+
         $list = $list->paginate($limit);
         return $this->success(
             [

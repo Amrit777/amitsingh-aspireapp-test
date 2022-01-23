@@ -29,10 +29,64 @@
     </p>
 
 Once done with the changes, Open terminal again to
-- Run Command "php artisan setup:install"
+- Run Command "php artisan setup:install". (This is an artisan command which will do rest of the things.)
 - Run Command "php artisan serve" or ( "php artisan serve --port=8001" as my API collection is running on port 8001).
 
 Now you are ready to run the API collection provided.
+
+## Work Flow:
+
+User:
+
+- Log In using API: http://localhost:8001/api/auth/login
+    User logs in to the system, using credentials, I am using passport authentication system.
+    On successfull login, Bearer token is generated, which is used to access further APIs.
+- Role based Access have been used on the routes, via middleware.
+- User applies for loan filling the details. API: http://localhost:8001/api/loan/apply
+- On success of saving the application with status "Processing", the application goes to Admin.
+- And it is visible in the Loan Application list (Only current users list will be displayed). API: http://localhost:8001/api/loan/list 
+- This list can be filtered based on "status".
+
+Admin:
+
+- Log In http://localhost:8001/api/auth/login
+    Admin logs in to the system, using credentials.
+- Goes to list of Applications: http://localhost:8001/api/admin/loan/list
+    - Can filter list based on status and users
+    - params: 
+        - "state_id" (optional):
+            LOAN_PROCESSING = 1;
+            LOAN_ADMIN_APPROVE = 2;
+            LOAN_ADMIN_REJECT = 3;
+            LOAN_REPAID = 4;
+        - user_id  (optional): Any user id can be passed and based on this particular users loan applications will be fetched.
+
+- Approves/Rejects the Application: http://localhost:8001/api/admin/loan/change-status
+        - "state_id":
+            LOAN_ADMIN_APPROVE = 2;
+            LOAN_ADMIN_REJECT = 3;
+
+- On Approval of application, weekly repayment records have been generated for that particular loan application.
+for eg; Loan of amount: 6000 INR, for a tenure of 10 weeks.
+We will generate, 10 week repayment records.
+Each week user have to pay 6000/10 ie; 600 INR.
+In the response I am also calculating "remaining balance" after each payment.
+
+User:
+
+- Once a user's application is approved, it will be visible in his loan applications list as Approved Loan Application.
+- On each approved loan application, user can check all his weekly repayments "Paid" Or "Pending" for that particular loan application.
+    API: http://localhost:8001/api/loan/repayment
+- User can pay his weekly repayments. API: http://localhost:8001/api/loan/repayment
+- Here Im checking if the amount is exact or not as per weekly payment amount.
+- On successfull payment, the status will be changed to "Paid".
+- Once the user pays all the weekly repayments as per tenure, the loan status will be marked as "Paid" too.
+    for eg: 600 INR paid for 10 weeks is complete, will mark the main loan application status to be "Repaid".
+- In the loan repayments records, we have "payment date" as per week. If any user fails to pay, using this we can notify user about the payment as well in the future scope.
+
+
+## Credentials:
+As per Seeder data.
 
 Admin Credentials:
 

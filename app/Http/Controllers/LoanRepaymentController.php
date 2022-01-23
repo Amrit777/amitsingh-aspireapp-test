@@ -23,12 +23,12 @@ class LoanRepaymentController extends Controller
             $list->where('user_id', $user->id);
         }
         if ($user->isAdmin()) {
-            if ($request->filled('state_id')) {
-                $list->where('state_id', $request->state_id);
-            }
             if ($request->filled('user_id')) {
                 $list->where('user_id', $request->user_id);
             }
+        }
+        if ($request->filled('state_id')) {
+            $list->where('state_id', $request->state_id);
         }
 
         $result = $list->paginate($limit);
