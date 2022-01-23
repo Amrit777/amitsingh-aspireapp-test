@@ -68,6 +68,14 @@ class install extends Command
         Artisan::call('db:seed', ['--force' => true]);
 
         $this->comment('Database Seeded Successfully...');
+
+        $this->info('Installing passport keys....');
+
+        Artisan::call('passport:install', ['--force' => true]);
+
+        $this->comment('Passport keys installed Successfully...');
+
         $this->comment('Successfully Installed! You can now run the software');
+
     }
 }
